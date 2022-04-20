@@ -1,0 +1,71 @@
+------------- QUERIES de validação dos dados -------------
+------ conhecendo a base de dados CreditStatus
+SELECT *
+FROM CreditStatus;
+
+--- tamanho da base de dados CreditStatus
+SELECT COUNT(1)
+FROM CreditStatus;
+-- Resposta: 34.763 
+
+--- clientes nulos
+SELECT COUNT(ClientId)
+FROM CreditStatus
+WHERE ClientId IS NULL;
+-- Resposta: 0
+
+--- clientes únicos
+SELECT COUNT (DISTINCT ClientId)
+FROM CreditStatus;
+-- Resposta: 34.763, tal como o tamanho da base
+
+------ conhecendo a base de dados FirstInvoiceDate
+SELECT *
+FROM FirstInvoiceDate;
+
+--- tamanho da base de dados FirstInvoiceDate
+SELECT COUNT(*)
+FROM FirstInvoiceDate;
+-- Resposta: 114.559
+
+--- faturas nulas
+SELECT COUNT(InvoiceId)
+FROM FirstInvoiceDate
+WHERE InvoiceId IS NULL;
+-- Resposta: 0
+
+--- quantidade de clientes únicos na base FirstInvoiceDate
+SELECT COUNT(DISTINCT ClientId)
+FROM FirstInvoiceDate;
+-- Resposta: 22.116. Ou seja, os clientes se repetem 92.443.
+
+--- período analisado considerando as safras
+SELECT MIN(FirstInvoiceDate), MAX(FirstInvoiceDate)
+FROM FirstInvoiceDate;
+-- Resposta: a safra inicia em 01/01/2019 e finaliza em 25/12/2019
+
+
+------ conhecendo a base de dados Client
+SELECT *
+FROM Client;
+
+--- tamanho da base de dados FirstInvoiceDate
+SELECT COUNT()
+FROM Client;
+-- Resposta: 58005
+
+--clientes únicos e não nulos
+SELECT sum(CASE WHEN ClientId IS NULL THEN 1 ELSE 0 END) AS Nulos, COUNT(ClientId) AS NaoNulos
+FROM Client;
+-- Resposta: Nulos: 18.089 e Não Nulos: 39.916
+
+-- clientes únicos
+SELECT COUNT(DISTINCT ClientId)
+FROM Client;
+-- Resposta: 39.916. Igual a quantidade de valores não nulos
+ 
+-- quantidade de clientes que já tiveram seu registro aprovado
+SELECT MIN(RegisterApprovalDate), MAX(RegisterApprovalDate)
+FROM Client;
+-- Resposta: os registros vão de 01/01/2017 a 31/12/2019
+
