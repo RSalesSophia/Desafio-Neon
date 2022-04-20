@@ -1,0 +1,28 @@
+-------- queries para respostas pontuais em SQL
+-- 1) Qual é a taxa de aprovação de crédito
+SELECT 
+CASE WHEN CreditStatus = 'Reprovado' THEN 'Reprovado' ELSE 'Aprovado'END AS Clientes, COUNT(*) as Total, COUNT(*) * 100 / SUM(COUNT(*)) over () AS Porcentagem 
+FROM CreditStatus 
+GROUP BY Clientes;
+--Resposta: 55%
+
+--2) Qual é a taxa de inadimplência de faturas
+SELECT COUNT(InvoiceId) as Total, COUNT(*) * 100 / SUM(COUNT(*)) over () AS Porcentagem 
+FROM FirstInvoiceDate
+GROUP BY InvoiceStatus;
+--Resposta: 10% 
+
+--3)Qual é a quantidade de faturas regulares por mês
+SELECT  substr(FirstInvoiceDate, 4, 2) AS Mes, COUNT(InvoiceId) as Total, InvoiceStatus
+FROM FirstInvoiceDate
+WHERE InvoiceStatus = 'REGULAR'
+GROUP BY Mes, InvoiceStatus
+ORDER BY TOTAL DESC;
+
+--4)Qual é a quantidade de faturas inadimplentes por mês
+SELECT  substr(FirstInvoiceDate, 4, 2) AS Mes, COUNT(InvoiceId) as Total, InvoiceStatus
+FROM FirstInvoiceDate
+WHERE InvoiceStatus = 'INADIMPLENTE'
+GROUP BY Mes, InvoiceStatus
+ORDER BY TOTAL DESC;
+ 
